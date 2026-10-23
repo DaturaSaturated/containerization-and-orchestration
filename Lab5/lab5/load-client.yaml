@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-client
+  labels:
+    app: load-client
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: load-client
+  template:
+    metadata:
+      labels:
+        app: load-client
+        version: v1
+    spec:
+      containers:
+      - name: curl
+        image: curlimages/curl:8.10.1
+        command: ["sh", "-c"]
+        args:
+        - |
+          while true; do
+            T=$(date +%s.%N)
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' --max-time 2 http://shop-api/health)
+            printf '%s,%s\n' "$T" "$CODE"
+            sleep 0.5
+          done

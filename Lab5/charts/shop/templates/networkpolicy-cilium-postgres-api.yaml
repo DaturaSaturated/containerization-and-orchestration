@@ -1,0 +1,16 @@
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-allow-postgres-egress-kube-api-cilium
+  namespace: {{ .Release.Namespace }}
+spec:
+  endpointSelector:
+    matchLabels:
+      cnpg.io/cluster: shop-postgres
+      cnpg.io/podRole: instance
+  egress:
+  - toEntities:
+    - kube-apiserver
+    - host
+{{- end }}

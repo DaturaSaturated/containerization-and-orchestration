@@ -1,0 +1,33 @@
+LAST SEEN   TYPE      REASON                         OBJECT                                  MESSAGE
+7m44s       Warning   PolicyViolation                clusterpolicy/require-labels            Pod default/shop-postgres-1: [check-labels] fail; validation error: Обязательные лейблы: app и version. rule check-labels failed at path /metadata/labels/app/
+7m36s       Warning   PolicyViolation                clusterpolicy/require-labels            Pod default/shop-postgres-1: [check-labels] fail; validation error: Обязательные лейблы: app и version. rule check-labels failed at path /metadata/labels/app/
+7m36s       Warning   PolicyViolation                pod/shop-postgres-1                     policy require-labels/check-labels fail: validation error: Обязательные лейблы: app и version. rule check-labels failed at path /metadata/labels/app/
+7m44s       Warning   PolicyViolation                pod/shop-postgres-1                     policy require-labels/check-labels fail: validation error: Обязательные лейблы: app и version. rule check-labels failed at path /metadata/labels/app/
+7m44s       Normal    Scheduled                      pod/shop-postgres-1                     Successfully assigned default/shop-postgres-1 to kali
+60m         Warning   Unhealthy                      pod/shop-postgres-1                     Liveness probe failed: Get "https://10.0.0.38:8000/healthz": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+60m         Warning   Unhealthy                      pod/shop-postgres-1                     Liveness probe failed: Get "https://10.0.0.38:8000/healthz": context deadline exceeded
+60m         Warning   Unhealthy                      pod/shop-postgres-1                     Liveness probe failed: Get "https://10.0.0.38:8000/healthz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+60m         Normal    Killing                        pod/shop-postgres-1                     Container postgres failed liveness probe, will be restarted
+59m         Warning   Unhealthy                      pod/shop-postgres-1                     Readiness probe failed: Get "https://10.0.0.38:8000/readyz": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+59m         Warning   Unhealthy                      pod/shop-postgres-1                     (combined from similar events): Readiness probe failed: Get "https://10.0.0.38:8000/readyz": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+59m         Warning   Unhealthy                      pod/shop-postgres-1                     Readiness probe failed: Get "https://10.0.0.38:8000/readyz": context deadline exceeded
+59m         Warning   Unhealthy                      pod/shop-postgres-1                     Readiness probe failed: HTTP probe failed with statuscode: 500
+58m         Normal    Created                        pod/shop-postgres-1                     Container created
+58m         Normal    Pulled                         pod/shop-postgres-1                     Container image "ghcr.io/cloudnative-pg/postgresql:17.0" already present on machine and can be accessed by the pod
+58m         Normal    Started                        pod/shop-postgres-1                     Container started
+57m         Warning   Unhealthy                      pod/shop-postgres-1                     Startup probe failed: Get "https://10.0.0.38:8000/healthz": net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+44m         Warning   Unhealthy                      pod/shop-api-649dcf8469-jg5vw           Readiness probe failed: Get "http://10.0.0.153:8080/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+17m         Warning   Unhealthy                      pod/shop-postgres-1                     Startup probe failed: Get "https://10.0.0.38:8000/healthz": context deadline exceeded
+12m         Warning   Unhealthy                      pod/shop-postgres-1                     Startup probe failed: Get "https://10.0.0.38:8000/healthz": net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+11m         Normal    Killing                        pod/shop-postgres-1                     Stopping container postgres
+11m         Warning   MultiplePodDisruptionBudgets   pod/shop-postgres-1                     Pod "default"/"shop-postgres-1" matches multiple PodDisruptionBudgets.  Chose "shop-postgres-primary" arbitrarily.
+7m45s       Warning   MultiplePodDisruptionBudgets   pod/shop-postgres-1                     Pod "default"/"shop-postgres-1" matches multiple PodDisruptionBudgets.  Chose "shop-postgres-pdb" arbitrarily.
+7m45s       Normal    NoPods                         poddisruptionbudget/shop-postgres-pdb   No matching pods found
+7m43s       Normal    Created                        pod/shop-postgres-1                     Container created
+7m43s       Normal    Started                        pod/shop-postgres-1                     Container started
+7m43s       Normal    Pulled                         pod/shop-postgres-1                     Container image "ghcr.io/cloudnative-pg/cloudnative-pg:1.24.1" already present on machine and can be accessed by the pod
+2m24s       Warning   Unhealthy                      pod/shop-postgres-1                     Startup probe failed: Get "https://10.0.0.240:8000/healthz": dial tcp 10.0.0.240:8000: connect: connection refused
+59s         Normal    Pulled                         pod/shop-postgres-1                     Container image "ghcr.io/cloudnative-pg/postgresql:17.0" already present on machine and can be accessed by the pod
+59s         Normal    Created                        pod/shop-postgres-1                     Container created
+58s         Normal    Started                        pod/shop-postgres-1                     Container started
+58s         Warning   MultiplePodDisruptionBudgets   pod/shop-postgres-1                     Pod "default"/"shop-postgres-1" matches multiple PodDisruptionBudgets.  Chose "shop-postgres-pdb" arbitrarily.

@@ -1,0 +1,44 @@
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  pgdata:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  shop-postgres-1
+    ReadOnly:   false
+  scratch-data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  shm:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     Memory
+    SizeLimit:  <unset>
+  kube-api-access-ts5db:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   Guaranteed
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                        Age                     From               Message
+  ----     ------                        ----                    ----               -------
+  Normal   Scheduled                     7m43s                   default-scheduler  Successfully assigned default/shop-postgres-1 to kali
+  Warning  PolicyViolation               7m43s                   kyverno-admission  policy require-labels/check-labels fail: validation error: Обязательные лейблы: app и version. rule check-labels failed at path /metadata/labels/app/
+  Warning  PolicyViolation               7m35s                   kyverno-admission  policy require-labels/check-labels fail: validation error: Обязательные лейблы: app и version. rule check-labels failed at path /metadata/labels/app/
+  Normal   Pulled                        7m43s                   kubelet            Container image "ghcr.io/cloudnative-pg/cloudnative-pg:1.24.1" already present on machine and can be accessed by the pod
+  Normal   Created                       7m43s                   kubelet            Container created
+  Normal   Started                       7m43s                   kubelet            Container started
+  Warning  Unhealthy                     2m24s (x31 over 7m34s)  kubelet            Startup probe failed: Get "https://10.0.0.240:8000/healthz": dial tcp 10.0.0.240:8000: connect: connection refused
+  Normal   Pulled                        59s (x3 over 7m40s)     kubelet            Container image "ghcr.io/cloudnative-pg/postgresql:17.0" already present on machine and can be accessed by the pod
+  Normal   Created                       59s (x3 over 7m40s)     kubelet            Container created
+  Normal   Started                       58s (x3 over 7m39s)     kubelet            Container started
+  Warning  MultiplePodDisruptionBudgets  58s (x7 over 7m36s)     controllermanager  Pod "default"/"shop-postgres-1" matches multiple PodDisruptionBudgets.  Chose "shop-postgres-pdb" arbitrarily.

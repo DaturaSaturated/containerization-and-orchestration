@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bad-root
+  labels:
+    app: bad
+    version: v1
+spec:
+  containers:
+  - name: nginx
+    image: docker.io/nginx:latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "100m"

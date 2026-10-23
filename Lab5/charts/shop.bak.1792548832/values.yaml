@@ -1,0 +1,80 @@
+api:
+  replicas: 5
+  image: docker.io/library/shop-api:v5
+  healthFail: "false"
+  resources:
+    requests:
+      cpu: 30m
+      memory: 100Mi
+    limits:
+      cpu: 30m
+      memory: 100Mi
+  spread:
+    enabled: true
+    mechanism: "topologySpreadConstraints"
+    mode: "soft"
+  service:
+    type: NodePort
+    nodePort: 30080
+
+worker:
+  replicas: 2
+  image: docker.io/library/shop-worker:v2
+  resources:
+    requests:
+      cpu: 10m
+      memory: 16Mi
+    limits:
+      cpu: 10m
+      memory: 16Mi
+
+batch:
+  replicas: 1
+  image: docker.io/library/shop-batch:v1
+  env:
+    cpuIntensity: "50"
+    memoryMB: "50"
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
+
+postgres:
+  image: docker.io/library/postgres:16-alpine
+  replicas: 1
+  auth:
+    username: shop
+    password: shop
+    database: shop
+  resources:
+    requests:
+      cpu: 40m
+      memory: 256Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
+  storage:
+    size: 1Gi
+
+priorityClasses:
+  enabled: true
+  critical:
+    value: 1000000
+  batch:
+    value: 100
+
+pdb:
+  api:
+    enabled: true
+    maxUnavailable: 1
+  postgres:
+    enabled: true
+    minAvailable: 1
+
+monitoring:
+  enabled: true
+networkPolicy:
+  enabled: false

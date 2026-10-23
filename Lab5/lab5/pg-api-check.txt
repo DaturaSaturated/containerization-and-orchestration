@@ -1,0 +1,30 @@
+=== policies ===
+NAME                                        POD-SELECTOR                                             AGE
+shop-allow-api-ingress                      app=shop-api                                             14m
+shop-allow-app-to-postgres-egress           app in (shop-api,shop-worker)                            14m
+shop-allow-cnpg-operator-to-postgres-8000   cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   14m
+shop-allow-dns-egress                       <none>                                                   14m
+shop-allow-host-probes                      <none>                                                   14m
+shop-allow-load-client-egress               app=load-client                                          14m
+shop-allow-monitoring-to-api                app=shop-api                                             14m
+shop-allow-monitoring-to-postgres           cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   14m
+shop-allow-postgres-egress-kube-api         cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   14m
+shop-allow-postgres-ingress-from-app        cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   14m
+shop-default-deny                           <none>                                                   2m15s
+NAME                                         AGE     VALID
+shop-allow-host-entity                       2m14s   True
+shop-allow-postgres-egress-kube-api-cilium   2m14s   True
+
+=== node / kubernetes endpoints ===
+NAME   STATUS   ROLES           AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                 KERNEL-VERSION             CONTAINER-RUNTIME
+kali   Ready    control-plane   21d   v1.36.4+k3s1   10.0.2.15     <none>        Kali GNU/Linux Rolling   7.1.5+kali-amd64 (amd64)   containerd://2.3.4-k3s1.36
+NAME         ADDRESSTYPE   PORTS   ENDPOINTS   AGE
+kubernetes   IPv4          6443    10.0.2.15   21d
+
+=== recent postgres API errors, last 3 minutes ===
+{"level":"info","ts":"2026-10-19T01:39:59.025041017Z","msg":"pkg/mod/k8s.io/client-go@v0.31.1/tools/cache/reflector.go:243: failed to list *v1.Cluster: Get \"https://10.43.0.1:443/apis/postgresql.cnpg.io/v1/namespaces/default/clusters?fieldSelector=metadata.name%3Dshop-postgres&resourceVersion=227024\": dial tcp 10.43.0.1:443: i/o timeout"}
+{"level":"error","ts":"2026-10-19T01:39:59.025086734Z","msg":"Unhandled Error","logger":"UnhandledError","error":"pkg/mod/k8s.io/client-go@v0.31.1/tools/cache/reflector.go:243: Failed to watch *v1.Cluster: failed to list *v1.Cluster: Get \"https://10.43.0.1:443/apis/postgresql.cnpg.io/v1/namespaces/default/clusters?fieldSelector=metadata.name%3Dshop-postgres&resourceVersion=227024\": dial tcp 10.43.0.1:443: i/o timeout","stacktrace":"k8s.io/client-go/tools/cache.DefaultWatchErrorHandler\n\tpkg/mod/k8s.io/client-go@v0.31.1/tools/cache/reflector.go:158\nk8s.io/client-go/tools/cache.(*Reflector).Run.func1\n\tpkg/mod/k8s.io/client-go@v0.31.1/tools/cache/reflector.go:308\nk8s.io/apimachinery/pkg/util/wait.BackoffUntil.func1\n\tpkg/mod/k8s.io/apimachinery@v0.31.1/pkg/util/wait/backoff.go:226\nk8s.io/apimachinery/pkg/util/wait.BackoffUntil\n\tpkg/mod/k8s.io/apimachinery@v0.31.1/pkg/util/wait/backoff.go:227\nk8s.io/client-go/tools/cache.(*Reflector).Run\n\tpkg/mod/k8s.io/client-go@v0.31.1/tools/cache/reflector.go:306\nk8s.io/client-go/tools/cache.(*controller).Run.(*Group).StartWithChannel.func2\n\tpkg/mod/k8s.io/apimachinery@v0.31.1/pkg/util/wait/wait.go:55\nk8s.io/apimachinery/pkg/util/wait.(*Group).Start.func1\n\tpkg/mod/k8s.io/apimachinery@v0.31.1/pkg/util/wait/wait.go:72"}
+
+=== cluster status ===
+Ready=True ClusterIsReady
+ContinuousArchiving=True ContinuousArchivingSuccess

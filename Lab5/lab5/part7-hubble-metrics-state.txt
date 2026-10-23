@@ -1,0 +1,59 @@
+CILIUM_POD=cilium-qlgbb
+CILIUM_CONTAINER=cilium-agent
+
+=== cilium pods ===
+NAME           READY   STATUS    RESTARTS   AGE     IP          NODE   NOMINATED NODE   READINESS GATES
+cilium-qlgbb   1/1     Running   0          2m15s   10.0.2.15   kali   <none>           <none>
+
+=== hubble configmap keys ===
+enable-hubble=true hubble-disable-tls=false hubble-listen-address=:4244 hubble-metrics=dns drop tcp flow
+
+=== hubble metrics service ===
+NAME             TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE     SELECTOR
+hubble-metrics   ClusterIP   None         <none>        9965/TCP   2m17s   k8s-app=cilium
+NAME                   ADDRESSTYPE   PORTS   ENDPOINTS   AGE
+hubble-metrics-4j4x7   IPv4          9965    10.0.2.15   2m17s
+
+=== ServiceMonitor hubble ===
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  annotations:
+    meta.helm.sh/release-name: cilium
+    meta.helm.sh/release-namespace: kube-system
+  creationTimestamp: "2026-10-21T01:55:26Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: hubble
+    app.kubernetes.io/part-of: cilium
+    helm.sh/chart: cilium-1.20.3
+  name: hubble
+  namespace: kube-system
+  resourceVersion: "272835"
+  uid: 3dfe6ce5-dee5-4577-ac38-4af51cf419dd
+spec:
+  endpoints:
+  - honorLabels: true
+    interval: 10s
+    path: /metrics
+    port: hubble-metrics
+    relabelings:
+    - action: replace
+      replacement: ${1}
+      sourceLabels:
+      - __meta_kubernetes_pod_node_name
+      targetLabel: node
+    scheme: http
+  namespaceSelector:
+    matchNames:
+    - kube-system
+  selector:
+    matchLabels:
+      k8s-app: hubble
+
+=== local Hubble metrics HTTP ===
+
+=== local Hubble metrics HTTPS fallback ===
+
+=== Hubble observe after upgrade ===

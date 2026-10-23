@@ -1,0 +1,11 @@
+=== our rules ===
+rule: ShopPolicyDeniedTraffic ok
+rule: ShopTCPConnectionDrops ok
+rule: CoreDNSDownOrMissing ok
+
+=== our alerts ===
+alert: ShopPolicyDeniedTraffic firing
+alert: ShopTCPConnectionDrops firing
+
+=== coredns targets ===
+job= coredns | instance= 10.0.0.59:9153 | up= 1

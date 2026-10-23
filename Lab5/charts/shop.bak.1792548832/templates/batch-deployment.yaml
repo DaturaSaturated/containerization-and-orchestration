@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-batch
+  labels:
+    app: shop-batch
+    version: {{ .Values.batch.image | splitList ":" | last }}
+spec:
+  replicas: {{ .Values.batch.replicas }}
+  selector:
+    matchLabels:
+      app: shop-batch
+  template:
+    metadata:
+      labels:
+        app: shop-batch
+        version: {{ .Values.batch.image | splitList ":" | last }}
+    spec:
+      {{- if .Values.priorityClasses.enabled }}
+      priorityClassName: {{ .Release.Name }}-batch
+      {{- end }}
+      containers:
+      - name: batch
+        image: {{ .Values.batch.image }}
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: CPU_INTENSITY
+          value: {{ .Values.batch.env.cpuIntensity | quote }}
+        - name: MEMORY_MB
+          value: {{ .Values.batch.env.memoryMB | quote }}
+        resources:
+          requests:
+            cpu: {{ .Values.batch.resources.requests.cpu }}
+            memory: {{ .Values.batch.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.batch.resources.limits.cpu }}
+            memory: {{ .Values.batch.resources.limits.memory }}
+        securityContext:
+          privileged: false
+          runAsNonRoot: true
+          runAsUser: 65534

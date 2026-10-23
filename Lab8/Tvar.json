@@ -1,0 +1,325 @@
+{
+  "name": "Tvar",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -256,
+        0
+      ],
+      "id": "baf01f7f-fdc7-4c77-b0ab-27e8ab2563f2",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Проанализируй тестовый стенд и прими решение. Данные: {{ JSON.stringify($json) }}",
+        "options": {
+          "systemMessage": "Ты — Senior DevOps Assistant (Cleanup Bot), отвечаешь за гигиену K8s-кластера.\nПравила (skills), применять строго по порядку:\n1. Если в env_name есть prod / stage / main / master — вердикт keep, причина \"production-зона\".\n2. Если age_days < 7 — вердикт keep, причина \"свежий стенд\".\n3. Иначе ОБЯЗАН вызвать инструмент проверки ветки (см. реальные имена ниже) с аргументом branch_name = branch.\n4. Статус merged → кандидат delete; статус open → keep, причина \"активная разработка\".\n5. В конце по текущему стенду вызвать инструмент генерации отчёта с полями env_name, verdict (delete|keep), reason.\nФинальный ответ — одна строка: \"<env_name>: <verdict> — <reason>\"."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        480,
+        -16
+      ],
+      "id": "5c19f046-2831-4415-ba87-bebf77f9a873",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:3b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        448,
+        208
+      ],
+      "id": "d390bb29-0067-40ed-9cf7-fe8f0b870144",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "KWhw3gNkdSb26fmj",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "MCP-сервер файловой системы. Возвращает JSON-список всех тестовых стендов (namespaces) с их метаданными: имя, возраст в днях, владелец, связанная ветка. Вызывай без аргументов.",
+        "jsCode": "const environments = [\n  { name: 'feature-billing-api', age_days: 15, owner: '@ivan', branch: 'feature/billing' },\n  { name: 'feature-auth-refactor', age_days: 25, owner: '@maria', branch: 'feature/auth' },\n  { name: 'prod-core-v2', age_days: 200, owner: '@platform', branch: 'main' }\n];\nreturn JSON.stringify(environments);"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        -80,
+        448
+      ],
+      "id": "c380671b-0d03-4d9b-891a-dae9323ec60a",
+      "name": "mcp_filesystem_get_environments"
+    },
+    {
+      "parameters": {
+        "description": "MCP-сервер файловой системы. Возвращает JSON-список всех тестовых стендов (namespaces) с их метаданными: имя, возраст в днях, владелец, связанная ветка. Вызывай без аргументов.",
+        "jsCode": "const environments = [\n  { name: 'feature-billing-api', age_days: 15, owner: '@ivan', branch: 'feature/billing' },\n  { name: 'feature-auth-refactor', age_days: 25, owner: '@maria', branch: 'feature/auth' },\n  { name: 'prod-core-v2', age_days: 200, owner: '@platform', branch: 'main' }\n];\nreturn JSON.stringify(environments);"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        272,
+        448
+      ],
+      "id": "52401491-5aae-48c9-a0bd-2f3ce0e55436",
+      "name": "mcp_github_check_branch"
+    },
+    {
+      "parameters": {
+        "description": "Финализирует анализ. Принимает имя стенда, вердикт (delete/keep) и причину. Сохраняет результат.",
+        "jsCode": "const data = $input.first().json;\nreturn `Отчет по стенду ${data.env_name}: Вердикт - ${data.verdict}. Причина: ${data.reason}`;"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        224
+      ],
+      "id": "407adf0f-7388-4ce0-848c-7167b626413b",
+      "name": "generate_cleanup_report"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "dac43c22-a54f-466b-8c20-7f68068b6263",
+              "leftValue": "={{ $json.age_days }}",
+              "rightValue": 7,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.4,
+      "position": [
+        240,
+        0
+      ],
+      "id": "23cf03d7-03f5-48e9-a350-c194cd104ba1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "path": "5d8f1d0c-cca1-4969-8581-f06b1ceb4836"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2.1,
+      "position": [
+        -272,
+        240
+      ],
+      "id": "3957c80c-ad01-4a61-bc30-a819987e5784",
+      "name": "MCP Infra Server",
+      "webhookId": "5d8f1d0c-cca1-4969-8581-f06b1ceb4836"
+    },
+    {
+      "parameters": {
+        "path": "93ea22fd-c799-4f36-8aee-214d4c5ba490"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2.1,
+      "position": [
+        32,
+        240
+      ],
+      "id": "a5b9bceb-3da4-4201-a59b-4545998640f2",
+      "name": "MCP Git Server",
+      "webhookId": "93ea22fd-c799-4f36-8aee-214d4c5ba490"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://localhost:5678/mcp/5d8f1d0c-cca1-4969-8581-f06b1ceb4836",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.4,
+      "position": [
+        608,
+        224
+      ],
+      "id": "4864ca02-088e-48c0-bb00-e5775b3f08a0",
+      "name": "Infra MCP Client"
+    },
+    {
+      "parameters": {
+        "endpointUrl": "http://localhost:5678/mcp/93ea22fd-c799-4f36-8aee-214d4c5ba490",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.4,
+      "position": [
+        752,
+        224
+      ],
+      "id": "b539cfad-2e69-4aa6-8e20-31ae7d703851",
+      "name": "Git MCP Client"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  { json: { env_name: 'feature-billing-api', owner: '@ivan', age_days: 15, branch: 'feature/billing' } },\n  { json: { env_name: 'feature-auth-refactor', owner: '@maria', age_days: 25, branch: 'feature/auth-refactor' } },\n  { json: { env_name: 'prod-core', owner: '@platform', age_days: 200, branch: 'main' } }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f5c8eede-507b-464f-9c20-b828245d971f",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mcp_filesystem_get_environments": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Infra Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mcp_github_check_branch": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Git Server",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate_cleanup_report": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Infra MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Git MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "a480cfce-1eed-41cb-b7f4-d6f098a86f81",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3824055125fdf57a2f1aa87e626896cf0d96c14702f525e2e6b13b398dbeec4f"
+  },
+  "nodeGroups": [],
+  "id": "AbaqAnSrEjN5umSR",
+  "tags": []
+}

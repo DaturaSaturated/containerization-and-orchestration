@@ -1,0 +1,3 @@
+=== Prometheus active targets for hubble/cilium ===
+Using service: prometheus-operated
+job= hubble-metrics | ns= kube-system | svc= hubble-metrics | health= up | lastError= 

@@ -1,0 +1,12 @@
+=== now ===
+Mon Oct 19 01:44:26 AM UTC 2026
+
+=== postgres pod age ===
+created=2026-10-19T01:27:17Z started=2026-10-19T01:27:17Z
+
+=== postgres API errors last 30s ===
+clean last 30s
+
+=== cluster ready ===
+Ready=True ClusterIsReady
+ContinuousArchiving=True ContinuousArchivingSuccess

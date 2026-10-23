@@ -1,0 +1,7 @@
+=== Prometheus targets for shop metrics ===
+job= shop-metrics-api | ns= default | svc= shop-metrics-api | health= unknown | lastError= 
+job= shop-metrics-api | ns= default | svc= shop-metrics-api | health= unknown | lastError= 
+job= shop-metrics-api | ns= default | svc= shop-metrics-api | health= unknown | lastError= 
+job= shop-metrics-api | ns= default | svc= shop-metrics-api | health= unknown | lastError= 
+job= shop-metrics-api | ns= default | svc= shop-metrics-api | health= unknown | lastError= 
+job= shop-metrics-postgres | ns= default | svc= shop-metrics-postgres | health= unknown | lastError= 

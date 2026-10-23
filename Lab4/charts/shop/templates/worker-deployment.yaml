@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-worker
+  labels:
+    app: shop-worker
+    version: {{ .Values.worker.image | splitList ":" | last }}
+spec:
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels:
+      app: shop-worker
+  template:
+    metadata:
+      labels:
+        app: shop-worker
+        version: {{ .Values.worker.image | splitList ":" | last }}
+    spec:
+      {{- if .Values.priorityClasses.enabled }}
+      priorityClassName: {{ .Release.Name }}-critical
+      {{- end }}
+      containers:
+      - name: worker
+        image: {{ .Values.worker.image }}
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-config
+        - secretRef:
+            name: {{ .Release.Name }}-db
+        resources:
+          requests:
+            cpu: {{ .Values.worker.resources.requests.cpu }}
+            memory: {{ .Values.worker.resources.requests.memory }}
+          limits:
+            cpu: {{ .Values.worker.resources.limits.cpu }}
+            memory: {{ .Values.worker.resources.limits.memory }}
+        securityContext:
+          privileged: false
+          runAsNonRoot: true

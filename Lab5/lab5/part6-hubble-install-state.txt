@@ -1,0 +1,28 @@
+=== host tools ===
+host hubble CLI not found
+cilium CLI not found
+cilium 	kube-system	3       	2026-10-18 21:22:57.25627582 -0400 EDT 	deployed	cilium-1.20.3               	1.20.3     
+
+=== k8s hubble objects ===
+
+=== cilium pods ===
+NAME           READY   STATUS    RESTARTS   AGE   IP          NODE   NOMINATED NODE   READINESS GATES
+cilium-cw66g   1/1     Running   0          36m   10.0.2.15   kali   <none>           <none>
+
+=== cilium-config hubble keys ===
+"enable-hubble":"true"
+"envoy-access-log-buffer-size":"4096"
+"hubble-disable-tls":"false"
+"hubble-listen-address":":4244"
+"hubble-network-policy-correlation-enabled":"true"
+"hubble-socket-path":"/var/run/cilium/hubble.sock"
+"hubble-tls-cert-file":"/var/lib/cilium/tls/hubble/server.crt"
+"hubble-tls-client-ca-files":"/var/lib/cilium/tls/hubble/client-ca.crt"
+"hubble-tls-key-file":"/var/lib/cilium/tls/hubble/server.key"
+"k8s-require-ipv4-pod-cidr":"false"
+"k8s-require-ipv6-pod-cidr":"false"
+
+=== hubble inside cilium-agent ===
+/usr/bin/hubble
+hubble v1.20.3@HEAD-bf1aba7b compiled with go1.26.9 on linux/amd64
+srw-rw---- 1 root root 0 Oct 19 01:23 /var/run/cilium/hubble.sock

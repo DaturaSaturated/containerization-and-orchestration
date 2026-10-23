@@ -1,0 +1,17 @@
+{{- if .Values.priorityClasses.enabled }}
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: {{ .Release.Name }}-critical
+value: {{ .Values.priorityClasses.critical.value }}
+globalDefault: false
+description: "Priority for critical path services (api, postgres)"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: {{ .Release.Name }}-batch
+value: {{ .Values.priorityClasses.batch.value }}
+globalDefault: false
+description: "Priority for background batch jobs"
+{{- end }}

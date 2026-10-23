@@ -1,0 +1,14 @@
+=== hubble-disable-tls in cilium-config ===
+false
+
+=== hubble pods ===
+
+=== hubble services ===
+NAME           TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+hubble-relay   ClusterIP   10.43.26.14    <none>        80/TCP    5h38m   k8s-app=hubble-relay
+hubble-ui      ClusterIP   10.43.118.73   <none>        80/TCP    5h38m   k8s-app=hubble-ui
+
+=== rollout status ===
+daemon set "cilium" successfully rolled out
+deployment "hubble-relay" successfully rolled out
+deployment "hubble-ui" successfully rolled out

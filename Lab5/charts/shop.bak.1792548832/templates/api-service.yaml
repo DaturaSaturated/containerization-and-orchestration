@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-api
+  labels:
+    app: shop-api
+    version: {{ .Values.api.image | splitList ":" | last }}
+spec:
+  type: {{ .Values.api.service.type | default "ClusterIP" }}
+  selector:
+    app: shop-api
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    {{- if eq (.Values.api.service.type | default "ClusterIP") "NodePort" }}
+    nodePort: {{ required "api.service.nodePort is required when type=NodePort" .Values.api.service.nodePort }}
+    {{- end }}

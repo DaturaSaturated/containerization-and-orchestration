@@ -1,0 +1,18 @@
+{{- $fault := default "none" .Values.networkPolicy.fault -}}
+{{- $port := 5432 -}}{{- if eq $fault "postgres-port" }}{{- $port = 5433 -}}{{- end }}
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-allow-postgres-ingress-from-app
+spec:
+  podSelector:
+    matchLabels: { cnpg.io/cluster: shop-postgres, cnpg.io/podRole: instance }
+  policyTypes: [Ingress]
+  ingress:
+  - from:
+    - podSelector:
+        matchExpressions:
+        - { key: app, operator: In, values: [shop-api, shop-worker] }
+    ports: [ { protocol: TCP, port: {{ $port }} } ]
+{{- end }}

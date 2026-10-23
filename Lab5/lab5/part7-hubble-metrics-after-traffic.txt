@@ -1,0 +1,34 @@
+=== Hubble metric names in Prometheus ===
+hubble_drop_total
+hubble_flows_processed_total
+hubble_lost_events_total
+hubble_metrics_http_handler_request_duration_seconds_bucket
+hubble_metrics_http_handler_request_duration_seconds_count
+hubble_metrics_http_handler_request_duration_seconds_sum
+hubble_metrics_http_handler_requests_total
+hubble_tcp_flags_total
+
+=== hubble_dns_queries_total ===
+no data
+
+=== hubble_dns_responses_total ===
+no data
+
+=== hubble_drop_total ===
+{"__name__": "hubble_drop_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "ICMPv6", "reason": "UNSUPPORTED_L3_PROTOCOL", "service": "hubble-metrics"} 46
+{"__name__": "hubble_drop_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "TCP", "reason": "POLICY_DENIED", "service": "hubble-metrics"} 64
+
+=== hubble_flows_processed_total ===
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "TCP", "service": "hubble-metrics", "type": "PolicyVerdict", "verdict": "FORWARDED"} 3631
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "TCP", "service": "hubble-metrics", "subtype": "to-endpoint", "type": "Trace", "verdict": "FORWARDED"} 63822
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "TCP", "service": "hubble-metrics", "subtype": "to-stack", "type": "Trace", "verdict": "FORWARDED"} 43870
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "TCP", "service": "hubble-metrics", "subtype": "to-network", "type": "Trace", "verdict": "FORWARDED"} 29
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "ICMPv4", "service": "hubble-metrics", "subtype": "to-endpoint", "type": "Trace", "verdict": "FORWARDED"} 32
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "ICMPv4", "service": "hubble-metrics", "subtype": "to-stack", "type": "Trace", "verdict": "FORWARDED"} 32
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "Unknown flow", "service": "hubble-metrics", "subtype": "7", "type": "Unknown", "verdict": "TRACED"} 41
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "UDP", "service": "hubble-metrics", "subtype": "to-network", "type": "Trace", "verdict": "FORWARDED"} 9
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "UDP", "service": "hubble-metrics", "subtype": "to-endpoint", "type": "Trace", "verdict": "FORWARDED"} 158
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "ICMPv6", "service": "hubble-metrics", "type": "Drop", "verdict": "DROPPED"} 46
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "UDP", "service": "hubble-metrics", "subtype": "to-stack", "type": "Trace", "verdict": "FORWARDED"} 6
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "TCP", "service": "hubble-metrics", "type": "Drop", "verdict": "DROPPED"} 32
+{"__name__": "hubble_flows_processed_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "TCP", "service": "hubble-metrics", "type": "PolicyVerdict", "verdict": "DROPPED"} 32

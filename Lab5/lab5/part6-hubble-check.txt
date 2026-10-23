@@ -1,0 +1,10 @@
+=== Cilium/Hubble status ===
+KVStore:                 Disabled   
+Kubernetes:              Ok         1.36 (v1.36.4+k3s1) [linux/amd64]
+Kubernetes APIs:         ["cilium/v2::CiliumCIDRGroup", "cilium/v2::CiliumClusterwideNetworkPolicy", "cilium/v2::CiliumEndpoint", "cilium/v2::CiliumNetworkPolicy", "cilium/v2::CiliumNode", "core/v1::Pods", "networking.k8s.io/v1::NetworkPolicy"]
+Hubble:                  Ok              Current/Max Flows: 4095/4095 (100.00%), Flows/s: 53.89   Metrics: Disabled
+
+=== Hubble pods/services/endpoints ===
+
+=== Hubble CLI ===
+hubble CLI not found

@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ .Release.Name }}-postgres
+  labels:
+    app: shop
+spec:
+  selector:
+    matchLabels:
+      cnpg.io/cluster: {{ .Release.Name }}-postgres
+  podMetricsEndpoints:
+    - targetPort: 9187
+      path: /metrics
+      interval: 30s

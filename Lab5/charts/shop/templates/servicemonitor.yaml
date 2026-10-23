@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Release.Name }}-postgres
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/part-of: shop
+    shop.io/metrics: postgres
+spec:
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      shop.io/metrics: postgres
+  endpoints:
+  - port: metrics
+    path: /metrics
+    interval: 15s
+    scheme: http
+    honorLabels: true

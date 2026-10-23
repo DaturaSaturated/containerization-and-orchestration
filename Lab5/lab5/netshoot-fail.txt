@@ -1,0 +1,65 @@
+NAME       READY   STATUS    RESTARTS   AGE   IP       NODE   NOMINATED NODE   READINESS GATES
+netshoot   0/1     Unknown   0          38m   <none>   kali   <none>           <none>
+Name:             netshoot
+Namespace:        intruder
+Priority:         0
+Service Account:  default
+Node:             kali/10.0.2.15
+Start Time:       Sun, 18 Oct 2026 20:55:21 -0400
+Labels:           run=netshoot
+Annotations:      <none>
+Status:           Failed
+IP:               
+IPs:              <none>
+Containers:
+  netshoot:
+    Container ID:  containerd://c3069f738ecf2276995a33385df7ab8e324cb709dc26dafaf3f162c5c74c0705
+    Image:         nicolaka/netshoot
+    Image ID:      docker.io/nicolaka/netshoot@sha256:b09d9b21381f47a79b3cbcb30da25266dc17186ea00ae65e99fdc51396f48e70
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sleep
+      3600
+    State:          Terminated
+      Reason:       Unknown
+      Exit Code:    255
+      Started:      Sun, 18 Oct 2026 20:56:05 -0400
+      Finished:     Sun, 18 Oct 2026 21:04:44 -0400
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-c49f8 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   False 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-c49f8:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason           Age                From               Message
+  ----     ------           ----               ----               -------
+  Normal   Scheduled        38m                default-scheduler  Successfully assigned intruder/netshoot to kali
+  Warning  PolicyViolation  38m                kyverno-admission  policy no-privileged/check-privileged fail: validation error: Привилегированные контейнеры запрещены. rule check-privileged failed at path /spec/containers/0/securityContext/
+  Warning  PolicyViolation  38m                kyverno-admission  policy no-root/check-non-root fail: validation error: Контейнеры должны запускаться от непривилегированного пользователя. rule check-non-root failed at path /spec/containers/0/securityContext/
+  Warning  PolicyViolation  38m                kyverno-admission  policy require-labels/check-labels fail: validation error: Обязательные лейблы: app и version. rule check-labels failed at path /metadata/labels/app/
+  Warning  PolicyViolation  38m                kyverno-admission  policy require-limits/check-limits fail: validation error: У контейнера должны быть заданы resources.limits.memory и resources.limits.cpu. rule check-limits failed at path /spec/containers/0/resources/limits/
+  Warning  PolicyViolation  38m                kyverno-admission  policy trusted-registries/check-registry fail: validation error: Образы только из docker.io, gcr.io, ghcr.io. rule check-registry failed at path /spec/containers/0/image/
+  Normal   Pulling          38m                kubelet            Pulling image "nicolaka/netshoot"
+  Normal   Pulled           37m                kubelet            Successfully pulled image "nicolaka/netshoot" in 42.651s (42.651s including waiting). Image size: 218745451 bytes.
+  Normal   Created          37m                kubelet            Container created
+  Normal   Started          37m                kubelet            Container started
+  Warning  FailedMount      28m (x5 over 28m)  kubelet            MountVolume.SetUp failed for volume "kube-api-access-c49f8" : object "intruder"/"kube-root-ca.crt" not registered

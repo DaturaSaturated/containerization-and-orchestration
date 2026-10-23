@@ -1,0 +1,2 @@
+NAME              READY   STATUS    RESTARTS      AGE     IP           NODE   NOMINATED NODE   READINESS GATES
+shop-postgres-1   0/1     Running   2 (70s ago)   7m44s   10.0.0.240   kali   <none>           <none>

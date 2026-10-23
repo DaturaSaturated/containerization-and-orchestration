@@ -1,0 +1,19 @@
+=== Hubble: all intruder flows ===
+Oct 19 02:13:25.211: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:25.211: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:13:26.216: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:26.216: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:13:27.458: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:27.459: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:13:28.484: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:28.484: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)
+
+=== Hubble: dropped intruder flows only ===
+Oct 19 02:13:25.211: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:25.211: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:13:26.216: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:26.216: intruder/netshoot:57552 (ID:543) <> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:13:27.458: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:27.459: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:13:28.484: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:13:28.484: intruder/netshoot:44050 (ID:543) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)

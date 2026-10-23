@@ -1,0 +1,25 @@
+=== ServiceMonitors in default ===
+NAME            AGE
+shop-postgres   8m45s
+
+=== metrics services in default ===
+NAME                    TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+shop-metrics-postgres   ClusterIP   None            <none>        9187/TCP       8m46s
+
+=== Prometheus targets: shop + hubble ===
+shop-metrics-postgres | default | shop-metrics-postgres | 10.0.0.5:9187 | up | 
+hubble-metrics | kube-system | hubble-metrics | 10.0.2.15:9965 | up | 
+
+=== health gate ===
+pod/shop-api-649dcf8469-4fzrm condition met
+pod/shop-api-649dcf8469-7qfff condition met
+pod/shop-api-649dcf8469-cjvxv condition met
+pod/shop-api-649dcf8469-d5fqk condition met
+pod/shop-api-649dcf8469-ls5q8 condition met
+pod/shop-worker-6c8b79456d-qjhwz condition met
+pod/shop-worker-6c8b79456d-wxxln condition met
+pod/shop-postgres-1 condition met
+NodePort HTTP 200
+Ready=True ClusterIsReady
+ContinuousArchiving=True ContinuousArchivingSuccess
+clean last 30s

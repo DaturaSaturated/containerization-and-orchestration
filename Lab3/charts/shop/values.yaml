@@ -1,0 +1,27 @@
+api:
+  replicas: 5
+  image: docker.io/library/shop-api:v5
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+worker:
+  replicas: 2
+  image: docker.io/library/shop-worker:v2
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+postgres:
+  image: ghcr.io/cloudnative-pg/postgresql:17.0
+  replicas: 1
+  auth:
+    username: shop
+    password: shop
+    database: shop
+  resources:
+    limits:
+      cpu: 250m
+      memory: 256Mi
+  storage:
+    size: 1Gi

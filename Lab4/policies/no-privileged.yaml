@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: no-privileged
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+  - name: check-privileged
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "Привилегированные контейнеры запрещены"
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              privileged: "false"

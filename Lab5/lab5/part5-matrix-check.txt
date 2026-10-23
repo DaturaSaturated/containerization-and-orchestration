@@ -1,0 +1,34 @@
+=== 0. Applied NetworkPolicy in default ===
+NAME                                        POD-SELECTOR                                             AGE
+shop-allow-api-ingress                      app=shop-api                                             16m
+shop-allow-app-to-postgres-egress           app in (shop-api,shop-worker)                            16m
+shop-allow-cnpg-operator-to-postgres-8000   cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   16m
+shop-allow-dns-egress                       <none>                                                   16m
+shop-allow-host-probes                      <none>                                                   16m
+shop-allow-load-client-egress               app=load-client                                          16m
+shop-allow-monitoring-to-api                app=shop-api                                             16m
+shop-allow-monitoring-to-postgres           cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   16m
+shop-allow-postgres-egress-kube-api         cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   16m
+shop-allow-postgres-ingress-from-app        cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   16m
+shop-default-deny                           <none>                                                   4m47s
+
+=== 1. Legitimate service health ===
+NodePort HTTP 200
+CNPG Ready=True ClusterIsReady
+
+=== 2. Intruder DNS should work ===
+10.43.141.10      shop-postgres-rw.default.svc.cluster.local  shop-postgres-rw.default.svc.cluster.local
+10.43.220.203     shop-api.default.svc.cluster.local  shop-api.default.svc.cluster.local
+
+=== 3. DENIED: intruder -> PostgreSQL service 5432 ===
+
+=== 4. DENIED: intruder -> PostgreSQL pod IP 5432 ===
+
+=== 5. DENIED: intruder -> shop-api service 80 ===
+
+=== 6. DENIED: intruder -> shop-api pod IP 8080 ===
+
+=== 7. ALLOWED: load-client -> shop-api through Service DNS ===
+pod/load-client condition met
+load-client -> shop-api HTTP 200
+

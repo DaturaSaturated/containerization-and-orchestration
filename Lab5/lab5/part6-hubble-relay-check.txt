@@ -1,0 +1,97 @@
+=== cilium-config hubble ===
+hubble-disable-tls=true
+hubble-socket-path=/var/run/cilium/hubble.sock
+hubble-listen-address=:4244
+
+=== hubble workloads ===
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS         IMAGES                                                                                                                                                                                                                      SELECTOR
+deployment.apps/hubble-relay   0/1     1            0           5h42m   hubble-relay       quay.io/cilium/hubble-relay:v1.20.3@sha256:c6f819d9c5e0b35ccac63b9f2f1ae213fd9be50588e15d5a444d5d305ad317b5                                                                                                                 k8s-app=hubble-relay
+deployment.apps/hubble-ui      1/1     1            1           5h42m   frontend,backend   quay.io/cilium/hubble-ui:v0.13.6@sha256:049a80a03585c043d0c3121bdc518c72b0fd42bae07e4bcce0fdb8f1e88041d0,quay.io/cilium/hubble-ui-backend:v0.13.6@sha256:83b3fc763f3d49948c306bf49b08277383e195904b9ca5c0c0022b2112628787   k8s-app=hubble-ui
+
+NAME                                READY   STATUS    RESTARTS      AGE     IP          NODE   NOMINATED NODE   READINESS GATES
+pod/hubble-relay-558cf46f5d-xrjsz   0/1     Running   7 (55s ago)   4h42m   10.0.0.19   kali   <none>           <none>
+pod/hubble-ui-5586f868f6-ktdg9      2/2     Running   6 (64m ago)   4h42m   10.0.0.44   kali   <none>           <none>
+
+NAME                   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE     SELECTOR
+service/hubble-relay   ClusterIP   10.43.26.14    <none>        80/TCP    5h42m   k8s-app=hubble-relay
+service/hubble-ui      ClusterIP   10.43.118.73   <none>        80/TCP    5h42m   k8s-app=hubble-ui
+
+=== hubble-relay service ports ===
+[{"port":80,"protocol":"TCP","targetPort":"grpc"}]
+
+=== hubble endpointslices ===
+NAME                 ADDRESSTYPE   PORTS   ENDPOINTS   AGE
+hubble-relay-kpkqg   IPv4          4245    10.0.0.19   5h42m
+hubble-ui-blf7j      IPv4          8081    10.0.0.44   5h42m
+
+=== hubble observe tests inside cilium-agent ===
+
+--- server=unix:///var/run/cilium/hubble.sock ---
+Oct 19 02:09:32.559: 10.0.0.194:49180 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) policy-verdict:L3-Only INGRESS ALLOWED (TCP Flags: SYN)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: SYN)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: SYN, ACK)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:33.622: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:33.622: 10.0.0.194:49196 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:33.623: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:33.623: 10.0.0.194:49196 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:33.623: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:34.349: default/shop-postgres-1:33346 (ID:5082) -> 10.0.2.15:6443 (host) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.349: default/shop-postgres-1:33346 (ID:5082) <- 10.0.2.15:6443 (host) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) policy-verdict:L3-Only INGRESS ALLOWED (TCP Flags: SYN)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: SYN)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) <- default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-stack FORWARDED (TCP Flags: SYN, ACK)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:34.367: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.367: 10.0.0.194:51946 (host) <- default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.369: 10.0.0.194:51946 (host) <- default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:34.369: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:34.370: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:34.533: monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:52874 (ID:10348) -> default/shop-api-649dcf8469-jg5vw:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.534: monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:52874 (ID:10348) <- default/shop-api-649dcf8469-jg5vw:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.687: default/shop-worker-6c8b79456d-8r6vv:58708 (ID:52450) -> default/shop-postgres-1:5432 (ID:5082) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.687: default/shop-worker-6c8b79456d-8r6vv:58708 (ID:52450) <- default/shop-postgres-1:5432 (ID:5082) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+
+--- server=localhost:4244 ---
+Oct 19 02:09:32.559: 10.0.0.194:49180 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:32.560: 10.0.0.194:49180 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) policy-verdict:L3-Only INGRESS ALLOWED (TCP Flags: SYN)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: SYN)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: SYN, ACK)
+Oct 19 02:09:33.621: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:33.622: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:33.622: 10.0.0.194:49196 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:33.623: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:33.623: 10.0.0.194:49196 (host) <- default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:33.623: 10.0.0.194:49196 (host) -> default/shop-api-649dcf8469-7hpbr:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:34.349: default/shop-postgres-1:33346 (ID:5082) -> 10.0.2.15:6443 (host) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.349: default/shop-postgres-1:33346 (ID:5082) <- 10.0.2.15:6443 (host) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) policy-verdict:L3-Only INGRESS ALLOWED (TCP Flags: SYN)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: SYN)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) <- default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-stack FORWARDED (TCP Flags: SYN, ACK)
+Oct 19 02:09:34.365: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:34.367: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.367: 10.0.0.194:51946 (host) <- default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.369: 10.0.0.194:51946 (host) <- default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:34.369: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, FIN)
+Oct 19 02:09:34.370: 10.0.0.194:51946 (host) -> default/shop-api-649dcf8469-dph66:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 19 02:09:34.533: monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:52874 (ID:10348) -> default/shop-api-649dcf8469-jg5vw:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.534: monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:52874 (ID:10348) <- default/shop-api-649dcf8469-jg5vw:8080 (ID:2546) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.687: default/shop-worker-6c8b79456d-8r6vv:58708 (ID:52450) -> default/shop-postgres-1:5432 (ID:5082) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 19 02:09:34.687: default/shop-worker-6c8b79456d-8r6vv:58708 (ID:52450) <- default/shop-postgres-1:5432 (ID:5082) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+
+--- server=hubble-relay.kube-system.svc.cluster.local:80 ---
+rpc error: code = Unavailable desc = name resolver error: produced zero addresses
+
+--- server=hubble-relay.kube-system.svc.cluster.local:4245 ---
+rpc error: code = Unavailable desc = name resolver error: produced zero addresses

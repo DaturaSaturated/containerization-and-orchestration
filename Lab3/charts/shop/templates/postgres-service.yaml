@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-postgres
+  labels:
+    app: shop-postgres
+    version: {{ .Chart.AppVersion }}
+spec:
+  clusterIP: None
+  selector:
+    app: shop-postgres
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-postgres-client
+  labels:
+    app: shop-postgres-client
+    version: {{ .Chart.AppVersion }}
+spec:
+  selector:
+    app: shop-postgres
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: good-pod
+  labels:
+    app: good
+    version: v1
+spec:
+  containers:
+  - name: nginx
+    image: docker.io/nginx:latest
+    securityContext:
+      privileged: false
+      runAsNonRoot: true
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "100m"

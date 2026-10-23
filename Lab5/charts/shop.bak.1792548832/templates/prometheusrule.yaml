@@ -1,0 +1,31 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ .Release.Name }}-alerts
+  labels:
+    app: shop
+spec:
+  groups:
+    - name: shop-resources
+      rules:
+        - alert: ShopPodPending
+          expr: kube_pod_status_phase{pod=~"shop-.*",phase="Pending"} == 1
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "под shop висит Pending — не влез в ресурсы ноды"
+        - alert: ShopBatchCPUThrottled
+          expr: increase(container_cpu_cfs_throttled_periods_total{container="batch"}[2m]) > 50
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "batch троттлится CPU (превысил limit)"
+        - alert: ShopNodeMemoryPressure
+          expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "нода под давлением по памяти"

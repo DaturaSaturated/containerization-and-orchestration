@@ -1,0 +1,9 @@
+--- kube-proxy pods ---
+--- kube-proxy mode ---
+no explicit mode in configmap
+--- iptables KUBE rules ---
+140
+--- IPVS rules ---
+ipvsadm not installed
+--- Cilium kube-proxy replacement ---
+KubeProxyReplacement:    False   

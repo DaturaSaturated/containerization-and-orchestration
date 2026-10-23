@@ -1,0 +1,64 @@
+=== NodePort ===
+NodePort HTTP 200
+
+=== CNPG cluster ===
+Ready=True ClusterIsReady
+ContinuousArchiving=True ContinuousArchivingSuccess
+
+=== postgres API errors last 60s ===
+clean last 60s
+
+=== pods ===
+NAME                           READY   STATUS    RESTARTS      AGE
+shop-api-649dcf8469-4fzrm      1/1     Running   0             5m22s
+shop-api-649dcf8469-7qfff      1/1     Running   0             5m22s
+shop-api-649dcf8469-cjvxv      1/1     Running   0             5m22s
+shop-api-649dcf8469-d5fqk      1/1     Running   0             5m22s
+shop-api-649dcf8469-ls5q8      1/1     Running   0             5m22s
+shop-batch-598fd475b5-w54vb    1/1     Running   0             5m22s
+shop-postgres-1                1/1     Running   8 (17m ago)   2d
+shop-worker-6c8b79456d-qjhwz   1/1     Running   0             5m22s
+shop-worker-6c8b79456d-wxxln   1/1     Running   0             5m22s
+
+=== policies ===
+NAME                                        POD-SELECTOR                                             AGE
+shop-allow-api-ingress                      app=shop-api                                             2d
+shop-allow-app-to-postgres-egress           app in (shop-api,shop-worker)                            2d
+shop-allow-cnpg-operator-to-postgres-8000   cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   2d
+shop-allow-dns-egress                       <none>                                                   47h
+shop-allow-host-probes                      <none>                                                   2d
+shop-allow-load-client-egress               app=load-client                                          2d
+shop-allow-monitoring-to-api                app=shop-api                                             2d
+shop-allow-monitoring-to-postgres           cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   2d
+shop-allow-postgres-egress-kube-api         cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   2d
+shop-allow-postgres-ingress-from-app        cnpg.io/cluster=shop-postgres,cnpg.io/podRole=instance   2d
+shop-default-deny                           <none>                                                   2d
+NAME                                         AGE   VALID
+shop-allow-host-entity                       2d    True
+shop-allow-postgres-egress-kube-api-cilium   2d    True
+
+=== helm fault flag ===
+  enabled: true
+  fault: none
+
+=== Hubble alive ===
+Oct 21 01:51:11.913: 10.0.0.194:36290 (host) <- default/shop-postgres-1:8000 (ID:5082) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 21 01:51:11.915: 10.0.0.194:36290 (host) -> default/shop-postgres-1:8000 (ID:5082) to-endpoint FORWARDED (TCP Flags: ACK, RST)
+Oct 21 01:51:11.932: 10.0.0.194:57126 (host) -> kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-endpoint FORWARDED (TCP Flags: SYN)
+Oct 21 01:51:11.932: 10.0.0.194:57126 (host) <- kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-stack FORWARDED (TCP Flags: SYN, ACK)
+Oct 21 01:51:11.933: 10.0.0.194:57126 (host) -> kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 21 01:51:11.935: 10.0.0.194:57126 (host) -> kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 21 01:51:11.938: 10.0.0.194:57126 (host) <- kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 21 01:51:11.941: 10.0.0.194:57126 (host) <- kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 21 01:51:11.941: 10.0.0.194:57126 (host) <- kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-stack FORWARDED (TCP Flags: ACK)
+Oct 21 01:51:11.942: 10.0.0.194:57126 (host) -> kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-endpoint FORWARDED (TCP Flags: ACK, FIN)
+Oct 21 01:51:11.942: 10.0.0.194:57126 (host) -> kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-endpoint FORWARDED (TCP Flags: RST)
+Oct 21 01:51:11.958: 10.0.0.194:55410 (host) -> kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 21 01:51:11.958: 10.0.0.194:55410 (host) <- kube-system/metrics-server-6dc596dfb8-2n2xw:10250 (ID:23739) to-stack FORWARDED (TCP Flags: ACK)
+Oct 21 01:51:11.963: 10.0.0.194:40726 (host) -> monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:9090 (ID:10348) to-endpoint FORWARDED (TCP Flags: SYN)
+Oct 21 01:51:11.963: 10.0.0.194:40726 (host) <- monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:9090 (ID:10348) to-stack FORWARDED (TCP Flags: SYN, ACK)
+Oct 21 01:51:11.963: 10.0.0.194:40726 (host) -> monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:9090 (ID:10348) to-endpoint FORWARDED (TCP Flags: ACK)
+Oct 21 01:51:11.964: 10.0.0.194:40726 (host) -> monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:9090 (ID:10348) to-endpoint FORWARDED (TCP Flags: ACK, PSH)
+Oct 21 01:51:11.965: 10.0.0.194:40726 (host) <- monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:9090 (ID:10348) to-stack FORWARDED (TCP Flags: ACK, PSH)
+Oct 21 01:51:11.966: 10.0.0.194:40726 (host) <- monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:9090 (ID:10348) to-stack FORWARDED (TCP Flags: ACK, FIN)
+Oct 21 01:51:11.966: 10.0.0.194:40726 (host) -> monitoring/prometheus-prom-kube-prometheus-stack-prometheus-0:9090 (ID:10348) to-endpoint FORWARDED (TCP Flags: ACK, FIN)

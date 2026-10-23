@@ -1,0 +1,28 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-limits
+  annotations:
+    policies.kyverno.io/title: Require resource limits
+    policies.kyverno.io/description: >-
+      Каждый контейнер обязан указать limits по памяти и CPU.
+      Без лимитов под может сожрать всю ноду и уронить соседей.
+spec:
+  validationFailureAction: Enforce   # Enforce = отклонять, Audit = только логировать
+  background: false
+  rules:
+  - name: check-limits
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "У контейнера должны быть заданы resources.limits.memory и resources.limits.cpu"
+      pattern:
+        spec:
+          containers:
+          - resources:
+              limits:
+                memory: "?*"
+                cpu: "?*"

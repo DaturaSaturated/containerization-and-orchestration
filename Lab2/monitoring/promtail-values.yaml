@@ -1,0 +1,23 @@
+config:
+  clients:
+    # Точка входа Loki из прошлого шага (svc loki, порт 3100, auth off).
+    - url: http://loki:3100/loki/api/v1/push
+  snippets:
+    # Фильтр базового job: читаем только поды lab2-api.
+    extraRelabelConfigs:
+      - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+        action: keep
+        regex: lab2-api
+    # Порядок stage'ов критичен: cri -> json -> labels.
+    pipelineStages:
+      - cri: {}
+      - json:
+          expressions:
+            level: level
+            endpoint: endpoint
+            status: status
+            trace_id: trace_id
+      - labels:
+          level:
+          endpoint:
+          status:

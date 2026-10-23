@@ -1,0 +1,14 @@
+replicaCount: 1
+
+image:
+  repository: lab2-api
+  pullPolicy: Never
+  tag: "v1"
+
+service:
+  type: ClusterIP
+  port: 8080
+
+env:
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://jaeger:4318"
+  OTEL_SERVICE_NAME: "lab2-api"

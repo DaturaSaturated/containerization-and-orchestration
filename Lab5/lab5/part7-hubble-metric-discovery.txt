@@ -1,0 +1,29 @@
+=== Hubble metric names in Prometheus ===
+hubble_drop_total
+hubble_flows_processed_total
+hubble_lost_events_total
+hubble_metrics_http_handler_request_duration_seconds_bucket
+hubble_metrics_http_handler_request_duration_seconds_count
+hubble_metrics_http_handler_request_duration_seconds_sum
+hubble_metrics_http_handler_requests_total
+hubble_tcp_flags_total
+
+=== Sample labels for key Hubble metrics ===
+
+--- hubble_drop_total ---
+{"__name__": "hubble_drop_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "protocol": "ICMPv6", "reason": "UNSUPPORTED_L3_PROTOCOL", "service": "hubble-metrics"}
+
+--- hubble_dns_queries_total ---
+no series
+
+--- hubble_dns_responses_total ---
+no series
+
+--- hubble_flow_observed_total ---
+no series
+
+--- hubble_tcp_flags_total ---
+{"__name__": "hubble_tcp_flags_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "family": "IPv4", "flag": "FIN", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "service": "hubble-metrics"}
+{"__name__": "hubble_tcp_flags_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "family": "IPv4", "flag": "RST", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "service": "hubble-metrics"}
+{"__name__": "hubble_tcp_flags_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "family": "IPv4", "flag": "SYN", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "service": "hubble-metrics"}
+{"__name__": "hubble_tcp_flags_total", "container": "cilium-agent", "endpoint": "hubble-metrics", "family": "IPv4", "flag": "SYN-ACK", "instance": "10.0.2.15:9965", "job": "hubble-metrics", "namespace": "kube-system", "node": "kali", "pod": "cilium-qlgbb", "service": "hubble-metrics"}

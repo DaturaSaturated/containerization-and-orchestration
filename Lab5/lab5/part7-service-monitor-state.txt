@@ -1,0 +1,25 @@
+=== metrics services ===
+shop-metrics-api        ClusterIP   None            <none>        8080/TCP       1s
+shop-metrics-postgres   ClusterIP   None            <none>        9187/TCP       1s
+
+=== endpointslices ===
+NAME                          ADDRESSTYPE   PORTS   ENDPOINTS                                      AGE
+shop-metrics-api-7grsk        IPv4          8080    10.0.0.232,10.0.0.199,10.0.0.183 + 2 more...   1s
+shop-metrics-postgres-w7zmx   IPv4          9187    10.0.0.5                                       1s
+
+=== postgres container ports ===
+postgres: [{"containerPort":5432,"name":"postgresql","protocol":"TCP"},{"containerPort":9187,"name":"metrics","protocol":"TCP"},{"containerPort":8000,"name":"status","protocol":"TCP"}]
+
+=== health after metrics enable ===
+pod/shop-api-649dcf8469-4fzrm condition met
+pod/shop-api-649dcf8469-7qfff condition met
+pod/shop-api-649dcf8469-cjvxv condition met
+pod/shop-api-649dcf8469-d5fqk condition met
+pod/shop-api-649dcf8469-ls5q8 condition met
+pod/shop-worker-6c8b79456d-qjhwz condition met
+pod/shop-worker-6c8b79456d-wxxln condition met
+pod/shop-postgres-1 condition met
+NodePort HTTP 200
+Ready=True ClusterIsReady
+ContinuousArchiving=True ContinuousArchivingSuccess
+clean last 30s

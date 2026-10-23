@@ -1,0 +1,61 @@
+1448:hubble:
+1449-  # -- Enable Hubble (true by default).
+1450-  enabled: true
+1451-  # @schema
+1452-  # type: [null, boolean]
+1453-  # @schema
+1454-  # -- (bool) Enable hostUsers for Hubble.
+1455-  # This will allow use of user-namespaces for hubble components. Not all
+1456-  # clusters support user-namespaces.
+1457-  # See: https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/
+1458-  hostUsers: ~
+1459-  # -- Annotations to be added to all top-level hubble objects (resources under templates/hubble)
+1460-  annotations: {}
+1461-  # -- Buffer size of the channel Hubble uses to receive monitor events. If this
+1462-  # value is not set, the queue size is set to the default monitor queue size.
+1463-  # eventQueueSize: ""
+1464-
+1465-  # -- Number of recent flows for Hubble to cache. Defaults to 4095.
+1466-  # Possible values are:
+1467-  #   1, 3, 7, 15, 31, 63, 127, 255, 511, 1023,
+1468-  #   2047, 4095, 8191, 16383, 32767, 65535
+1469-  # eventBufferCapacity: "4095"
+1470-
+1471-  # -- The interval at which Hubble will send out lost events from the Observer server, if any.
+1472-  # lostEventSendInterval: 1s
+1473-
+1474-  # -- Hubble metrics configuration.
+1475-  # See https://docs.cilium.io/en/stable/observability/metrics/#hubble-metrics
+1476-  # for more comprehensive documentation about Hubble metrics.
+1477-  metrics:
+1478-    # @schema
+1479-    # type: [null, array]
+1480-    # @schema
+1481-    # -- Configures the list of metrics to collect. If empty or null, metrics
+1482-    # are disabled.
+1483-    # Example:
+1484-    #
+1485-    #   enabled:
+1486-    #   - dns:query;ignoreAAAA
+1487-    #   - drop
+1488-    #   - tcp
+1489-    #   - flow
+1490-    #   - icmp
+1491-    #   - http
+1492-    #
+1493-    # You can specify the list of metrics from the helm CLI:
+1494-    #
+1495-    #   --set hubble.metrics.enabled="{dns:query;ignoreAAAA,drop,tcp,flow,icmp,http}"
+1496-    #
+1497-    enabled: ~
+1498-    # -- Enables exporting hubble metrics in OpenMetrics format.
+1499-    enableOpenMetrics: false
+1500-    # -- Configure the port the hubble metric server listens on.
+1501-    port: 9965
+1502-    tls:
+1503-      # Enable hubble metrics server TLS.
+1504-      enabled: false
+1505-      # Configure hubble metrics server TLS.
+1506-      server:
+1507-        # -- Name of the Secret containing the certificate and key for the Hubble metrics server.
+1508-        # If specified, cert and key are ignored.

@@ -1,0 +1,49 @@
+grafana:
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki:3100
+      uid: loki
+      isDefault: false
+      editable: false
+
+additionalPrometheusRulesMap:
+  lab2-alerts:
+    groups:
+      - name: lab2.rules
+        rules:
+          - alert: HighErrorRate
+            expr: |
+              sum(rate(http_requests_total{job="lab2-api", status=~"5.."}[1m]))
+                /
+              sum(rate(http_requests_total{job="lab2-api"}[1m]))
+                > 0.05
+            for: 1m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Высокий error rate у lab2-api (>5%)"
+              description: "Доля 5xx ответов {{ $value | humanizePercentage }} за последние 1 мин."
+
+          - alert: HighLatencyP95
+            expr: |
+              histogram_quantile(0.95,
+                sum by (le) (rate(http_request_duration_seconds_bucket{job="lab2-api"}[2m]))
+              ) > 1
+            for: 2m
+            labels:
+              severity: warning
+            annotations:
+              summary: "Высокая p95 латентность у lab2-api (>1s)"
+              description: "p95 = {{ $value }}s за последние 2 мин."
+
+          - alert: ServiceDown
+            expr: |
+              absent(up{job="lab2-api"} == 1)
+            for: 1m
+            labels:
+              severity: critical
+            annotations:
+              summary: "lab2-api недоступен"
+              description: "Нет успешных скрейпов метрик сервиса более 1 мин."

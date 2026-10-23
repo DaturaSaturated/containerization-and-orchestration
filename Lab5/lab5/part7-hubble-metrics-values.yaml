@@ -1,0 +1,7 @@
+hubble:
+  metrics:
+    enabled:
+      - "dns:query;ignoreAAAA"
+      - drop
+      - tcp
+      - flow

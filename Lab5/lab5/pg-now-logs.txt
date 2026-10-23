@@ -1,0 +1,1 @@
+{"level":"info","ts":"2026-10-19T00:32:39.524105872Z","logger":"wait-for-get-cluster","msg":"Encountered an error while executing get cluster. Will wait and retry","logging_pod":"shop-postgres-1","error":"Get \"https://10.43.0.1:443/apis/postgresql.cnpg.io/v1/namespaces/default/clusters/shop-postgres\": dial tcp 10.43.0.1:443: i/o timeout"}

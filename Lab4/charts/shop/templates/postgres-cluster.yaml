@@ -1,0 +1,28 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}-postgres
+  labels:
+    app: shop-postgres
+    version: {{ .Chart.AppVersion }}
+spec:
+  instances: {{ .Values.postgres.replicas }}
+  
+  postgresql:
+    parameters:
+      shared_buffers: 256MB
+  
+  bootstrap:
+    initdb:
+      database: {{ .Values.postgres.auth.database }}
+      owner: {{ .Values.postgres.auth.username }}
+      secret:
+        name: {{ .Release.Name }}-db
+  
+  storage:
+    size: {{ .Values.postgres.storage.size }}
+  
+  resources:
+    limits:
+      cpu: {{ .Values.postgres.resources.limits.cpu }}
+      memory: {{ .Values.postgres.resources.limits.memory }}

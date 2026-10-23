@@ -1,0 +1,21 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: no-root
+spec:
+  validationFailureAction: Enforce
+  background: false
+  rules:
+  - name: check-non-root
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    validate:
+      message: "Контейнеры должны запускаться от непривилегированного пользователя"
+      pattern:
+        spec:
+          containers:
+          - securityContext:
+              runAsNonRoot: true

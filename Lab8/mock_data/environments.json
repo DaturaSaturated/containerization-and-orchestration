@@ -1,0 +1,5 @@
+[
+  { "env_name": "feature-billing-api", "owner": "@ivan", "age_days": 15, "branch": "feature/billing" },
+  { "env_name": "feature-auth-refactor", "owner": "@maria", "age_days": 25, "branch": "feature/auth-refactor" },
+  { "env_name": "prod-core", "owner": "@platform", "age_days": 200, "branch": "main" }
+]

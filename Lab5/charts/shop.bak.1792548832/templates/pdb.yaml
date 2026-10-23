@@ -1,0 +1,31 @@
+{{- if .Values.pdb.api.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-api-pdb
+spec:
+  {{- if .Values.pdb.api.minAvailable }}
+  minAvailable: {{ .Values.pdb.api.minAvailable }}
+  {{- else if .Values.pdb.api.maxUnavailable }}
+  maxUnavailable: {{ .Values.pdb.api.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: shop-api
+{{- end }}
+---
+{{- if .Values.pdb.postgres.enabled }}
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Release.Name }}-postgres-pdb
+spec:
+  {{- if .Values.pdb.postgres.minAvailable }}
+  minAvailable: {{ .Values.pdb.postgres.minAvailable }}
+  {{- else if .Values.pdb.postgres.maxUnavailable }}
+  maxUnavailable: {{ .Values.pdb.postgres.maxUnavailable }}
+  {{- end }}
+  selector:
+    matchLabels:
+      cnpg.io/cluster: shop-postgres
+{{- end }}

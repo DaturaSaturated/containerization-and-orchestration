@@ -1,0 +1,8 @@
+Oct 19 02:40:06.832: default/fault-client:35446 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:40:06.832: default/fault-client:35446 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:40:07.847: default/fault-client:35446 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:40:07.848: default/fault-client:35446 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:40:08.989: default/fault-client:35448 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:40:08.989: default/fault-client:35448 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)
+Oct 19 02:40:10.021: default/fault-client:35448 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) policy-verdict:none INGRESS DENIED (TCP Flags: SYN)
+Oct 19 02:40:10.021: default/fault-client:35448 (ID:34282) <> default/shop-postgres-1:5432 (ID:5082) Policy denied DROPPED (TCP Flags: SYN)
